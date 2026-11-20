@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annie的每日學習樂園</title>
+  <style>
+    :root {
+      --bg-cream: #FAF8F5;
+      --bg-card: #FFFFFF;
+      --bg-soft: #F2EFE9;
+      --sage-primary: #5B7B6A;
+      --sage-dark: #435D4F;
+      --sage-light: #E8F0EB;
+      --sage-border: #C8D8CE;
+      --text-main: #2F3632;
+      --text-muted: #68736D;
+      --accent-warm: #D98A4E;
+      --accent-warm-light: #FDF3EB;
+      --danger: #C95B5B;
+      --danger-light: #FDECEC;
+      --shadow-sm: 0 2px 8px rgba(47, 54, 50, 0.05);
+      --shadow-md: 0 6px 20px rgba(47, 54, 50, 0.08);
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--sage-border);
+      padding: 14px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--sage-light);
+      color: var(--sage-primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .brand-title h1 {
+      font-size: 1.25rem;
+      color: var(--sage-dark);
+      font-weight: 700;
+    }
+
+    .brand-title p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sync-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--bg-soft);
+      color: var(--text-muted);
+      border: 1px solid #E2DDD5;
+    }
+
+    .sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #A0A8A4;
+    }
+
+    .sync-badge.connected {
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      border-color: var(--sage-border);
+    }
+
+    .sync-badge.connected .sync-dot {
+      background: #3D9960;
+    }
+
+    .sync-badge.syncing .sync-dot {
+      background: var(--accent-warm);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 9px 16px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--sage-primary);
+      color: #FFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--sage-dark);
+    }
+
+    .btn-outline {
+      background: var(--bg-card);
+      color: var(--sage-dark);
+      border: 1px solid var(--sage-border);
+    }
+
+    .btn-outline:hover {
+      background: var(--sage-light);
+    }
+
+    .btn-warm {
+      background: var(--accent-warm);
+      color: #FFF;
+    }
+
+    .btn-warm:hover {
+      background: #C2773E;
+    }
+
+    .btn-danger {
+      background: var(--danger-light);
+      color: var(--danger);
+      border: 1px solid #F3C6C6;
+    }
+
+    .btn-danger:hover {
+      background: var(--danger);
+      color: #FFF;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.82rem;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 24px auto;
+      padding: 0 20px 60px;
+    }
+
+    .summary-banner {
+      background: var(--bg-card);
+      border: 1px solid var(--sage-border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 20px;
+      align-items: center;
+    }
+
+    .stat-box h3 {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--sage-dark);
+    }
+
+    .progress-wrap {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 768px) {
+      .progress-wrap { grid-column: span 1; }
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--sage-dark);
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: var(--bg-soft);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--sage-primary), #789E89);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .subject-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      padding: 7px 15px;
+      border-radius: 999px;
+      background: var(--bg-card);
+      border: 1px solid #E2DDD5;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .pill:hover {
+      border-color: var(--sage-primary);
+    }
+
+    .pill.active {
+      background: var(--sage-primary);
+      color: #FFF;
+      border-color: var(--sage-primary);
+    }
+
+    .status-filters {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid #E6E1D8;
+      border-radius: var(--radius-md);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--sage-border);
+    }
+
+    .card.completed {
+      background: #F6FAF7;
+      border-color: var(--sage-border);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .tag-subject {
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .tag-type {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: var(--bg-soft);
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+
+    .card h4 {
+      font-size: 1.08rem;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .card p.desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px dashed #E6E1D8;
+      margin-bottom: 12px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .card-actions .btn-primary {
+      flex: 1;
+      justify-content: center;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(35, 42, 38, 0.55);
+      backdrop-filter: blur(3px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 1020px;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--sage-border);
+    }
+
+    .modal-sm {
+      max-width: 440px;
+      padding: 24px;
+    }
+
+    .modal-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid #EAE5DC;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-cream);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .study-layout {
+      display: grid;
+      grid-template-columns: 1.65fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    @media (max-width: 860px) {
+      .study-layout { grid-template-columns: 1fr; }
+    }
+
+    .media-container {
+      background: #1C211E;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+    }
+
+    .media-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .web-fallback {
+      padding: 24px;
+      text-align: center;
+      background: var(--bg-soft);
+      color: var(--text-main);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .study-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .timer-card {
+      background: var(--sage-light);
+      border: 1px solid var(--sage-border);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .timer-display {
+      font-size: 2.3rem;
+      font-weight: 800;
+      color: var(--sage-dark);
+      font-variant-numeric: tabular-nums;
+      margin: 6px 0 12px;
+    }
+
+    .timer-presets, .timer-controls {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .notes-card {
+      background: var(--bg-cream);
+      border: 1px solid #E2DDD5;
+      border-radius: 14px;
+      padding: 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notes-card label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--sage-dark);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .notes-card textarea {
+      width: 100%;
+      flex: 1;
+      min-height: 120px;
+      border: 1px solid #D8D2C7;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.92rem;
+      resize: vertical;
+      background: #FFF;
+    }
+
+    .admin-panel {
+      display: none;
+    }
+
+    .admin-panel.active {
+      display: block;
+    }
+
+    .admin-tabs {
+      display: flex;
+      gap: 10px;
+      border-bottom: 2px solid #E6E1D8;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .admin-tab {
+      padding: 10px 18px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      margin-bottom: -2px;
+    }
+
+    .admin-tab.active {
+      color: var(--sage-primary);
+      border-bottom-color: var(--sage-primary);
+    }
+
+    .admin-section {
+      display: none;
+    }
+
+    .admin-section.active {
+      display: block;
+    }
+
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--sage-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--sage-dark);
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 9px 12px;
+      border: 1px solid #D5CFC5;
+      border-radius: 9px;
+      font-size: 0.92rem;
+      background: var(--bg-cream);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--sage-border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .kpi-card span {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .kpi-card strong {
+      display: block;
+      font-size: 1.4rem;
+      color: var(--sage-dark);
+      margin-top: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid #ECE7DF;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      font-weight: 700;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--sage-dark);
+      color: #FFF;
+      padding: 12px 20px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      font-size: 0.9rem;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 2000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">🌱</div>
+        <div class="brand-title">
+          <h1>Annie的每日學習樂園</h1>
+          <p id="todayDateSubtitle">專注探索・快樂累積每一天的進步</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div id="syncStatusBadge" class="sync-badge" title="Google Sheets 雲端同步狀態">
+          <span class="sync-dot"></span>
+          <span id="syncStatusText">本機模式</span>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="manualSyncFromCloud()">
+          🔄 重新整理
+        </button>
+        <button id="toggleModeBtn" class="btn btn-primary btn-sm" onclick="handleModeSwitch()">
+          🔐 家長管理模式
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- ==================== 學生學習模式 ==================== -->
+    <div id="studentView">
+      <section class="summary-banner">
+        <div class="stat-box">
+          <h3>今日已完成項目</h3>
+          <div class="stat-value"><span id="statCompleted">0</span> / <span id="statTotal">0</span></div>
+        </div>
+        <div class="stat-box">
+          <h3>今日累積閱讀 / 專注</h3>
+          <div class="stat-value" id="statFocusTime">0 分鐘</div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-header">
+            <span>今日學習達成率</span>
+            <span id="statPercent">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="filter-bar">
+        <div class="subject-pills" id="subjectPills"></div>
+        <div class="status-filters">
+          <button class="pill active" onclick="setStatusFilter('all', this)">全部</button>
+          <button class="pill" onclick="setStatusFilter('todo', this)">未完成</button>
+          <button class="pill" onclick="setStatusFilter('done', this)">已完成</button>
+        </div>
+      </section>
+
+      <section class="resource-grid" id="resourceGrid"></section>
+    </div>
+
+    <!-- ==================== 家長管理模式 ==================== -->
+    <div id="adminView" class="admin-panel">
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchAdminTab('resources', this)">📚 學習資源管理</button>
+        <button class="admin-tab" onclick="switchAdminTab('daily', this)">📅 每日完成與閱讀統計</button>
+        <button class="admin-tab" onclick="switchAdminTab('report', this)">📝 各項進度與筆記</button>
+        <button class="admin-tab" onclick="switchAdminTab('cloud', this)">☁️ 雲端同步設定</button>
+        <button class="admin-tab" onclick="switchAdminTab('security', this)">🔑 密碼與備份</button>
+      </div>
+
+      <!-- 分頁 1：新增與管理資源 -->
+      <div id="tab-resources" class="admin-section active">
+        <div class="form-card">
+          <h3 id="formTitle" style="margin-bottom: 14px; color: var(--sage-dark);">➕ 新增學習資源</h3>
+          <input type="hidden" id="editId" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label>學科分類（可選取或直接輸入新科目）</label>
+              <input type="text" id="resSubject" list="subjectOptions" placeholder="選擇或輸入新科目" value="國文" />
+              <datalist id="subjectOptions">
+                <option value="國文">
+                <option value="英語">
+                <option value="數學">
+                <option value="自然">
+                <option value="社會">
+                <option value="其他">
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label>資源類型</label>
+              <select id="resType">
+                <option value="video">🎬 教學影片 (YouTube)</option>
+                <option value="article">📖 互動網頁 / 講義</option>
+                <option value="quiz">✍️ 線上測驗 / 練習題</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>預估學習時間（分鐘）</label>
+              <input type="number" id="resDuration" value="20" min="1" max="180" />
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>課程或影片標題 *</label>
+              <input type="text" id="resTitle" placeholder="例如：五上數學 - 分數的加減觀念解析" />
+            </div>
+            <div class="form-group">
+              <label>網址連結 (URL) *</label>
+              <input type="url" id="resUrl" placeholder="https://www.youtube.com/watch?v=..." />
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label>學習重點說明（給 Annie 的小提示）</label>
+            <input type="text" id="resDesc" placeholder="例如：請邊看邊把例題算式寫在筆記本上喔！" />
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-primary" onclick="saveResource()">💾 儲存並同步</button>
+            <button class="btn btn-outline" id="cancelEditBtn" style="display:none;" onclick="resetForm()">取消編輯</button>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>順序</th>
+                <th>學科</th>
+                <th>標題</th>
+                <th>類型</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="adminResourceTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 分頁 2：每日完成與閱讀統計 -->
+      <div id="tab-daily" class="admin-section">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span>累計學習天數</span>
+            <strong id="kpiTotalDays">0 天</strong>
+          </div>
+          <div class="kpi-card">
+            <span>歷史總閱讀 / 專注時間</span>
+            <strong id="kpiTotalMinutes">0 分鐘</strong>
+          </div>
+          <div class="kpi-card">
+            <span>平均每日學習時間</span>
+            <strong id="kpiAvgMinutes">0 分鐘</strong>
+          </div>
+          <div class="kpi-card">
+            <span>今日已完成項目</span>
+            <strong id="kpiTodayCompleted">0 項</strong>
+          </div>
+        </div>
+
+        <div class="form-card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h3 style="color: var(--sage-dark);">📅 每日學習歷史明細</h3>
+            <p style="font-size:0.86rem; color:var(--text-muted);">精確記錄每天完成的項目數量、專注閱讀時間（分與秒）與完成的課程名稱，並同步保存於 Google 試算表 <code>DailyStats</code> 分頁。</p>
+          </div>
+          <button class="btn btn-warm btn-sm" onclick="startNewDayReset()">🌅 開始新的一天（保留歷史紀錄並重設今日勾選）</button>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th>完成項目數</th>
+                <th>完成率</th>
+                <th>累積閱讀 / 專注時間</th>
+                <th>當天完成課程清單</th>
+              </tr>
+            </thead>
+            <tbody id="dailyHistoryTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 分頁 3：各項進度與筆記 -->
+      <div id="tab-report" class="admin-section">
+        <div class="form-card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h3 style="color: var(--sage-dark);">目前各科學習項目與筆記</h3>
+            <p style="font-size:0.88rem; color:var(--text-muted);">檢視 Annie 針對每個學習項目累積的專注時間與寫下的重點筆記。</p>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="startNewDayReset()">🔄 開始新的一天（重設勾選）</button>
+        </div>
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>學科</th>
+                <th>項目名稱</th>
+                <th>完成狀態</th>
+                <th>今日累積專注</th>
+                <th>Annie 的學習筆記</th>
+              </tr>
+            </thead>
+            <tbody id="reportTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 分頁 4：Google 試算表雲端同步 -->
+      <div id="tab-cloud" class="admin-section">
+        <div class="form-card">
+          <h3 style="color: var(--sage-dark); margin-bottom: 8px;">☁️ 綁定 Google Sheets 雲端資料庫</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+            貼上 Google Apps Script 部署後的「網頁應用程式網址（結尾為 <code>/exec</code>）」，即可同步資源清單與每日學習統計。
+          </p>
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label>Google Apps Script 網頁應用程式網址</label>
+            <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/AKfycb.../exec" />
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <button class="btn btn-primary" onclick="saveAndTestGasUrl()">🔗 儲存網址並從雲端載入</button>
+            <button class="btn btn-warm" onclick="pushLocalToCloud()">⬆️ 將目前本機資料推送至雲端</button>
+            <button class="btn btn-outline" onclick="clearGasUrl()">解除雲端綁定</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 分頁 5：密碼與備份 -->
+      <div id="tab-security" class="admin-section">
+        <div class="form-card">
+          <h3 style="color: var(--sage-dark); margin-bottom: 12px;">🔑 修改家長管理密碼</h3>
+          <div class="form-grid" style="max-width: 480px;">
+            <div class="form-group">
+              <label>新密碼（預設為 1234）</label>
+              <input type="password" id="newPinInput" placeholder="輸入新密碼" />
+            </div>
+            <div class="form-group" style="justify-content: flex-end;">
+              <button class="btn btn-primary" onclick="updateAdminPin()">更新密碼</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h3 style="color: var(--sage-dark); margin-bottom: 8px;">📦 完整 JSON 檔案備份與還原</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">
+            包含所有課程資源與每日歷史統計紀錄。
+          </p>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-outline" onclick="exportJsonBackup()">⬇️ 匯出完整備份檔 (.json)</button>
+            <label class="btn btn-outline" style="cursor:pointer;">
+              ⬆️ 匯入還原檔 (.json)
+              <input type="file" accept=".json" style="display:none;" onchange="importJsonBackup(event)" />
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== 專注學習彈窗 ==================== -->
+  <div id="studyModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <span id="modalSubjectTag" class="tag-subject" style="margin-right:8px;">學科</span>
+          <strong id="modalTitle" style="font-size:1.08rem; color:var(--sage-dark);">課程標題</strong>
+        </div>
+        <button class="close-btn" onclick="closeStudyModal()" title="關閉並儲存進度">&times;</button>
+      </div>
+
+      <div class="study-layout">
+        <div>
+          <div class="media-container" id="mediaContainer"></div>
+          <div style="margin-top: 12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <p id="modalDesc" style="font-size:0.9rem; color:var(--text-muted);"></p>
+            <a id="externalLinkBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+              ↗ 在新分頁開啟原始網頁
+            </a>
+          </div>
+        </div>
+
+        <div class="study-sidebar">
+          <div class="timer-card">
+            <div style="font-size:0.85rem; font-weight:700; color:var(--sage-dark);">⏱️ 專注閱讀計時器</div>
+            <div class="timer-display" id="timerDisplay">30:00</div>
+            <div class="timer-presets">
+              <button class="btn btn-outline btn-sm" onclick="setTimerPreset(30)">30 分鐘</button>
+              <button class="btn btn-outline btn-sm" onclick="setTimerPreset(60)">60 分鐘</button>
+              <button class="btn btn-outline btn-sm" onclick="setStopwatchMode()">正計時</button>
+            </div>
+            <div class="timer-controls">
+              <button class="btn btn-primary btn-sm" id="timerStartBtn" onclick="toggleTimer()">▶️ 開始計時</button>
+              <button class="btn btn-outline btn-sm" onclick="resetTimer()">重設</button>
+            </div>
+          </div>
+
+          <div class="notes-card">
+            <label>
+              <span>📝 Annie 的學習筆記</span>
+              <span id="noteSaveHint" style="font-weight:400; color:var(--text-muted); font-size:0.78rem;">自動儲存</span>
+            </label>
+            <textarea id="studyNotesInput" placeholder="在這裡寫下今天學到的重點、公式或疑問..." oninput="handleNoteTyping()"></textarea>
+          </div>
+
+          <button id="modalCompleteBtn" class="btn btn-warm" style="width:100%; justify-content:center; padding:12px;" onclick="toggleCompleteInModal()">
+            ✅ 完成這項學習任務！
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 快速完成時間登記彈窗 ==================== -->
+  <div id="quickLogModal" class="modal-overlay">
+    <div class="modal-box modal-sm">
+      <h3 style="color:var(--sage-dark); margin-bottom:6px;">🎉 太棒了！準備完成這項任務</h3>
+      <p id="quickLogTitle" style="font-size:0.9rem; font-weight:700; color:var(--text-main); margin-bottom:10px;"></p>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">
+        因為剛才沒有使用專注計時器，請問 Annie 這次大概花了多少分鐘學習呢？（會自動計入今日閱讀統計喔！）
+      </p>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label>實際學習分鐘數</label>
+        <input type="number" id="quickLogMinutesInput" min="0" max="240" value="15" onkeydown="if(event.key==='Enter') confirmQuickLog(true)" />
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap;">
+        <button class="btn btn-outline btn-sm" onclick="closeQuickLogModal()">取消</button>
+        <button class="btn btn-outline btn-sm" onclick="confirmQuickLog(false)">不計時直接打勾</button>
+        <button class="btn btn-primary btn-sm" onclick="confirmQuickLog(true)">✅ 確認登記並完成</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 家長密碼驗證彈窗 ==================== -->
+  <div id="pinModal" class="modal-overlay">
+    <div class="modal-box modal-sm">
+      <h3 style="color:var(--sage-dark); margin-bottom:8px;">🔐 請輸入家長管理密碼</h3>
+      <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:14px;">預設密碼為 <strong>1234</strong>，登入後可於設定分頁修改。</p>
+      <div class="form-group" style="margin-bottom:16px;">
+        <input type="password" id="pinInput" placeholder="請輸入密碼" onkeydown="if(event.key==='Enter') verifyPin()" />
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-outline" onclick="closePinModal()">取消</button>
+        <button class="btn btn-primary" onclick="verifyPin()">確認進入</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">提示訊息</div>
+
+  <script>
+    // 若想讓所有裝置一打開網頁就自動連線，請將您的 Apps Script 網址貼在下方雙引號內
+    const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbz3m0pLFwnyLiIznVy8j3fSxcB-6PCHV09HPIcU0pLfF1Wlh83dawuigfERJm-XvBRg/exec";
+
+    const STORAGE_KEY = "annie_learning_hub_v3";
+    const HISTORY_KEY = "annie_learning_history_v3";
+    const LAST_DATE_KEY = "annie_learning_last_date_v3";
+    const PIN_KEY = "annie_learning_pin_v2";
+    const GAS_URL_KEY = "annie_learning_gas_url_v2";
+
+    const DEFAULT_RESOURCES = [
+      {
+        id: "res_1",
+        subject: "英語",
+        title: "自然發音 Phonics 基礎母音練習",
+        type: "video",
+        url: "https://www.youtube.com/watch?v=BELlZKpi1Zs",
+        description: "跟著影片一起大聲唸出每個字母的發音與單字喔！",
+        duration: 15,
+        completed: false,
+        notes: "",
+        focusSeconds: 0
+      },
+      {
+        id: "res_2",
+        subject: "數學",
+        title: "均一教育平台：分數與小數的換算",
+        type: "article",
+        url: "https://www.junyiacademy.org/",
+        description: "登入均一平台完成今日指派的 5 題基礎練習題。",
+        duration: 30,
+        completed: false,
+        notes: "",
+        focusSeconds: 0
+      },
+      {
+        id: "res_3",
+        subject: "自然",
+        title: "太陽系八大行星與宇宙奧秘科普",
+        type: "video",
+        url: "https://www.youtube.com/watch?v=libKVRa01L8",
+        description: "觀察各個行星的大小順序，並在筆記寫下最喜歡的一顆行星。",
+        duration: 20,
+        completed: false,
+        notes: "",
+        focusSeconds: 0
+      }
+    ];
+
+    let resources = [];
+    let dailyHistory = [];
+    let currentSubject = "全部";
+    let currentStatus = "all";
+    let isAdminMode = false;
+
+    let activeStudyId = null;
+    let quickLogTargetId = null;
+    let timerInterval = null;
+    let isStopwatch = false;
+    let timerSeconds = 30 * 60;
+    let sessionAccumulatedSeconds = 0;
+    let noteSaveTimeout = null;
+
+    // 精確格式化秒數為「幾分幾秒」
+    function formatDurationDisplay(totalSeconds) {
+      const sec = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+      if (sec === 0) return "0 分鐘";
+      const mins = Math.floor(sec / 60);
+      const remSec = sec % 60;
+      if (mins === 0) return `${remSec} 秒`;
+      if (remSec === 0) return `${mins} 分鐘`;
+      return `${mins} 分 ${remSec} 秒`;
+    }
+
+    function getTodayDateStr() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, "0");
+      const d = String(now.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      const todayStr = getTodayDateStr();
+      document.getElementById("todayDateSubtitle").textContent = `📅 今天是 ${todayStr}・快樂累積每一天的進步`;
+
+      const savedGasUrl = localStorage.getItem(GAS_URL_KEY) || DEFAULT_GAS_URL;
+      if (savedGasUrl && !localStorage.getItem(GAS_URL_KEY)) {
+        localStorage.setItem(GAS_URL_KEY, savedGasUrl);
+      }
+      document.getElementById("gasUrlInput").value = savedGasUrl;
+
+      const localData = localStorage.getItem(STORAGE_KEY);
+      resources = localData ? JSON.parse(localData) : [...DEFAULT_RESOURCES];
+
+      const localHist = localStorage.getItem(HISTORY_KEY);
+      dailyHistory = localHist ? JSON.parse(localHist) : [];
+
+      checkAutoNewDay(todayStr);
+      updateTodayHistorySnapshot();
+      renderAll();
+
+      if (savedGasUrl) {
+        await pullFromCloud(true);
+      }
+    });
+
+    function checkAutoNewDay(todayStr) {
+      const lastDate = localStorage.getItem(LAST_DATE_KEY);
+      if (lastDate && lastDate !== todayStr) {
+        resources.forEach(r => {
+          r.completed = false;
+          r.focusSeconds = 0;
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(resources));
+      }
+      localStorage.setItem(LAST_DATE_KEY, todayStr);
+    }
+
+    function updateTodayHistorySnapshot() {
+      const todayStr = getTodayDateStr();
+      const completedItems = resources.filter(r => r.completed);
+      const completedCount = completedItems.length;
+      const totalCount = resources.length;
+      const focusSeconds = resources.reduce((sum, r) => sum + (Number(r.focusSeconds) || 0), 0);
+      const completedTitles = completedItems.map(r => `[${r.subject}] ${r.title}`).join("、");
+
+      const idx = dailyHistory.findIndex(h => h.date === todayStr);
+      const entry = {
+        date: todayStr,
+        completedCount,
+        totalCount,
+        focusSeconds,
+        completedTitles
+      };
+
+      if (idx !== -1) {
+        dailyHistory[idx] = entry;
+      } else {
+        dailyHistory.unshift(entry);
+      }
+
+      dailyHistory.sort((a, b) => b.date.localeCompare(a.date));
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(dailyHistory));
+    }
+
+    function getGasUrl() {
+      return (localStorage.getItem(GAS_URL_KEY) || DEFAULT_GAS_URL || "").trim();
+    }
+
+    function setSyncBadge(state, text) {
+      const badge = document.getElementById("syncStatusBadge");
+      const label = document.getElementById("syncStatusText");
+      badge.className = "sync-badge " + state;
+      label.textContent = text;
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    async function saveAndSync(silent = false) {
+      updateTodayHistorySnapshot();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(resources));
+      renderAll();
+
+      const url = getGasUrl();
+      if (!url) {
+        setSyncBadge("", "本機模式");
+        return;
+      }
+
+      setSyncBadge("syncing", "雲端同步中...");
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "syncAll",
+            data: resources,
+            history: dailyHistory
+          })
+        });
+        const result = await res.json();
+        if (result.status === "success") {
+          setSyncBadge("connected", "雲端已同步");
+          if (!silent) showToast("已同步至 Google 試算表");
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (err) {
+        console.error(err);
+        setSyncBadge("", "同步失敗（已存本機）");
+        if (!silent) showToast("雲端同步失敗，請檢查試算表網址權限");
+      }
+    }
+
+    async function pullFromCloud(isInitial = false) {
+      const url = getGasUrl();
+      if (!url) {
+        if (!isInitial) showToast("尚未設定 Google 試算表網址");
+        return;
+      }
+
+      setSyncBadge("syncing", "讀取雲端資料...");
+      try {
+        const res = await fetch(url + "?action=getAll&t=" + Date.now());
+        const result = await res.json();
+        if (result.status === "success") {
+          if (Array.isArray(result.data) && result.data.length > 0) {
+            resources = result.data;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(resources));
+          }
+          if (Array.isArray(result.history) && result.history.length > 0) {
+            dailyHistory = result.history;
+            dailyHistory.sort((a, b) => b.date.localeCompare(a.date));
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(dailyHistory));
+          }
+          updateTodayHistorySnapshot();
+          renderAll();
+          setSyncBadge("connected", "雲端已連線");
+          if (!isInitial) showToast("已更新為雲端最新資料！");
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (err) {
+        console.error(err);
+        setSyncBadge("", "雲端連線異常");
+        if (!isInitial) showToast("無法連線至 Google 試算表");
+      }
+    }
+
+    function manualSyncFromCloud() {
+      pullFromCloud(false);
+    }
+
+    function renderAll() {
+      renderSummary();
+      renderSubjectPills();
+      renderResourceCards();
+      renderAdminTable();
+      renderDailyHistoryTable();
+      renderReportTable();
+    }
+
+    function renderSummary() {
+      const total = resources.length;
+      const completed = resources.filter(r => r.completed).length;
+      const totalSec = resources.reduce((sum, r) => sum + (Number(r.focusSeconds) || 0), 0);
+      const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+      document.getElementById("statCompleted").textContent = completed;
+      document.getElementById("statTotal").textContent = total;
+      document.getElementById("statFocusTime").textContent = formatDurationDisplay(totalSec);
+      document.getElementById("statPercent").textContent = pct + "%";
+      document.getElementById("progressBarFill").style.width = pct + "%";
+    }
+
+    function renderSubjectPills() {
+      const subjects = ["全部", ...new Set(resources.map(r => r.subject))];
+      if (!subjects.includes(currentSubject)) currentSubject = "全部";
+
+      const container = document.getElementById("subjectPills");
+      container.innerHTML = subjects.map(sub => `
+        <button class="pill ${sub === currentSubject ? 'active' : ''}" onclick="setSubjectFilter('${escapeHtml(sub)}')">
+          ${escapeHtml(sub)}
+        </button>
+      `).join("");
+    }
+
+    function setSubjectFilter(sub) {
+      currentSubject = sub;
+      renderSubjectPills();
+      renderResourceCards();
+    }
+
+    function setStatusFilter(status, btn) {
+      currentStatus = status;
+      document.querySelectorAll(".status-filters .pill").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderResourceCards();
+    }
+
+    function renderResourceCards() {
+      const grid = document.getElementById("resourceGrid");
+      const filtered = resources.filter(r => {
+        const matchSub = currentSubject === "全部" || r.subject === currentSubject;
+        const matchStatus = currentStatus === "all" ||
+          (currentStatus === "done" && r.completed) ||
+          (currentStatus === "todo" && !r.completed);
+        return matchSub && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted); background:var(--bg-card); border-radius:16px;">目前這個分類下沒有學習項目喔！</div>`;
+        return;
+      }
+
+      const typeLabel = { video: "🎬 教學影片", article: "📖 網頁講義", quiz: "✍️ 線上測驗" };
+
+      grid.innerHTML = filtered.map(item => {
+        const sec = Number(item.focusSeconds) || 0;
+        const statusText = sec > 0
+          ? `今日已讀 ${formatDurationDisplay(sec)}`
+          : (item.notes ? "📝 已寫筆記" : "尚未開始");
+
+        return `
+          <div class="card ${item.completed ? 'completed' : ''}">
+            <div>
+              <div class="card-top">
+                <span class="tag-subject">${escapeHtml(item.subject)}</span>
+                <span class="tag-type">${typeLabel[item.type] || "📚 學習資源"}</span>
+              </div>
+              <h4>${item.completed ? "✅ " : ""}${escapeHtml(item.title)}</h4>
+              <p class="desc">${escapeHtml(item.description || "點擊下方按鈕開始專注學習")}</p>
+            </div>
+            <div>
+              <div class="card-meta">
+                <span>⏱️ 建議 ${item.duration} 分鐘</span>
+                <span>${statusText}</span>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-primary" onclick="openStudyModal('${item.id}')">
+                  ${item.completed ? "再次複習" : "▶ 開始學習"}
+                </button>
+                <button class="btn btn-outline" onclick="quickToggleComplete('${item.id}')" title="快速切換完成狀態">
+                  ${item.completed ? "↩" : "✔"}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // 快速完成按鈕：若尚未完成且目前專注時間為 0，彈出登記分鐘數視窗
+    function quickToggleComplete(id) {
+      const item = resources.find(r => r.id === id);
+      if (!item) return;
+
+      if (!item.completed && (Number(item.focusSeconds) || 0) === 0) {
+        quickLogTargetId = id;
+        document.getElementById("quickLogTitle").textContent = `【${item.subject}】${item.title}`;
+        document.getElementById("quickLogMinutesInput").value = item.duration || 15;
+        document.getElementById("quickLogModal").classList.add("open");
+        setTimeout(() => document.getElementById("quickLogMinutesInput").focus(), 100);
+      } else {
+        item.completed = !item.completed;
+        saveAndSync();
+      }
+    }
+
+    function closeQuickLogModal() {
+      quickLogTargetId = null;
+      document.getElementById("quickLogModal").classList.remove("open");
+    }
+
+    function confirmQuickLog(includeMinutes) {
+      if (!quickLogTargetId) return;
+      const item = resources.find(r => r.id === quickLogTargetId);
+      if (item) {
+        item.completed = true;
+        if (includeMinutes) {
+          const mins = Math.max(0, Number(document.getElementById("quickLogMinutesInput").value) || 0);
+          item.focusSeconds = (Number(item.focusSeconds) || 0) + (mins * 60);
+        }
+        saveAndSync();
+      }
+      closeQuickLogModal();
+    }
+
+    // ==================== 專注學習彈窗邏輯 ====================
+    function extractYouTubeId(url) {
+      const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+      const match = url.match(regExp);
+      return match ? match[1] : null;
+    }
+
+    function openStudyModal(id) {
+      const item = resources.find(r => r.id === id);
+      if (!item) return;
+
+      activeStudyId = id;
+      sessionAccumulatedSeconds = 0;
+
+      document.getElementById("modalSubjectTag").textContent = item.subject;
+      document.getElementById("modalTitle").textContent = item.title;
+      document.getElementById("modalDesc").textContent = item.description || "";
+      document.getElementById("externalLinkBtn").href = item.url;
+      document.getElementById("studyNotesInput").value = item.notes || "";
+
+      const mediaBox = document.getElementById("mediaContainer");
+      const ytId = extractYouTubeId(item.url);
+
+      if (ytId) {
+        mediaBox.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${ytId}?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      } else {
+        mediaBox.innerHTML = `
+          <div class="web-fallback">
+            <div style="font-size:2.4rem;">🌐</div>
+            <h4>外部互動學習網站</h4>
+            <p style="font-size:0.88rem; max-width:360px; color:var(--text-muted);">
+              此學習資源為外部教學網站（如均一平台、線上測驗），請點擊下方按鈕開啟網站，同時可使用右側計時器與筆記本！
+            </p>
+            <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              🚀 前往學習網頁
+            </a>
+          </div>
+        `;
+      }
+
+      updateModalCompleteBtn(item.completed);
+      setTimerPreset(30);
+      document.getElementById("studyModal").classList.add("open");
+    }
+
+    function closeStudyModal() {
+      stopTimer();
+      document.getElementById("mediaContainer").innerHTML = "";
+
+      if (activeStudyId && sessionAccumulatedSeconds > 0) {
+        const item = resources.find(r => r.id === activeStudyId);
+        if (item) {
+          item.focusSeconds = (Number(item.focusSeconds) || 0) + sessionAccumulatedSeconds;
+          saveAndSync(true);
+        }
+      }
+      activeStudyId = null;
+      document.getElementById("studyModal").classList.remove("open");
+    }
+
+    function updateModalCompleteBtn(isDone) {
+      const btn = document.getElementById("modalCompleteBtn");
+      if (isDone) {
+        btn.className = "btn btn-outline";
+        btn.textContent = "🎉 已完成！（點擊可取消完成標記）";
+      } else {
+        btn.className = "btn btn-warm";
+        btn.textContent = "✅ 完成這項學習任務！";
+      }
+    }
+
+    function toggleCompleteInModal() {
+      if (!activeStudyId) return;
+      const item = resources.find(r => r.id === activeStudyId);
+      if (!item) return;
+
+      item.completed = !item.completed;
+      if (sessionAccumulatedSeconds > 0) {
+        item.focusSeconds = (Number(item.focusSeconds) || 0) + sessionAccumulatedSeconds;
+        sessionAccumulatedSeconds = 0;
+      }
+      updateModalCompleteBtn(item.completed);
+      saveAndSync();
+    }
+
+    function handleNoteTyping() {
+      document.getElementById("noteSaveHint").textContent = "輸入中...";
+      clearTimeout(noteSaveTimeout);
+      noteSaveTimeout = setTimeout(() => {
+        if (!activeStudyId) return;
+        const item = resources.find(r => r.id === activeStudyId);
+        if (item) {
+          item.notes = document.getElementById("studyNotesInput").value;
+          document.getElementById("noteSaveHint").textContent = "已儲存 ✓";
+          saveAndSync(true);
+        }
+      }, 900);
+    }
+
+    function formatTime(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, "0");
+      const s = String(sec % 60).padStart(2, "0");
+      return `${m}:${s}`;
+    }
+
+    function setTimerPreset(minutes) {
+      stopTimer();
+      isStopwatch = false;
+      timerSeconds = minutes * 60;
+      document.getElementById("timerDisplay").textContent = formatTime(timerSeconds);
+    }
+
+    function setStopwatchMode() {
+      stopTimer();
+      isStopwatch = true;
+      timerSeconds = 0;
+      document.getElementById("timerDisplay").textContent = "00:00";
+    }
+
+    function toggleTimer() {
+      if (timerInterval) {
+        stopTimer();
+      } else {
+        document.getElementById("timerStartBtn").textContent = "⏸ 暫停計時";
+        timerInterval = setInterval(() => {
+          sessionAccumulatedSeconds++;
+          if (isStopwatch) {
+            timerSeconds++;
+          } else {
+            if (timerSeconds > 0) {
+              timerSeconds--;
+            } else {
+              stopTimer();
+              showToast("⏰ 專注時間到囉！休息一下喝口水吧！");
+            }
+          }
+          document.getElementById("timerDisplay").textContent = formatTime(timerSeconds);
+        }, 1000);
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      document.getElementById("timerStartBtn").textContent = "▶️ 開始計時";
+    }
+
+    function resetTimer() {
+      if (isStopwatch) {
+        setStopwatchMode();
+      } else {
+        setTimerPreset(30);
+      }
+    }
+
+    // ==================== 家長管理模式 ====================
+    function handleModeSwitch() {
+      if (isAdminMode) {
+        isAdminMode = false;
+        document.getElementById("adminView").classList.remove("active");
+        document.getElementById("studentView").style.display = "block";
+        document.getElementById("toggleModeBtn").textContent = "🔐 家長管理模式";
+        renderAll();
+      } else {
+        document.getElementById("pinInput").value = "";
+        document.getElementById("pinModal").classList.add("open");
+        setTimeout(() => document.getElementById("pinInput").focus(), 100);
+      }
+    }
+
+    function closePinModal() {
+      document.getElementById("pinModal").classList.remove("open");
+    }
+
+    function verifyPin() {
+      const input = document.getElementById("pinInput").value;
+      const savedPin = localStorage.getItem(PIN_KEY) || "1234";
+      if (input === savedPin) {
+        closePinModal();
+        isAdminMode = true;
+        document.getElementById("studentView").style.display = "none";
+        document.getElementById("adminView").classList.add("active");
+        document.getElementById("toggleModeBtn").textContent = "🎒 返回 Annie 學習畫面";
+        renderAll();
+      } else {
+        showToast("❌ 密碼錯誤，請再試一次");
+      }
+    }
+
+    function switchAdminTab(tabName, btn) {
+      document.querySelectorAll(".admin-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".admin-section").forEach(s => s.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("tab-" + tabName).classList.add("active");
+    }
+
+    function saveResource() {
+      const editId = document.getElementById("editId").value;
+      const subject = document.getElementById("resSubject").value.trim() || "其他";
+      const type = document.getElementById("resType").value;
+      const duration = Number(document.getElementById("resDuration").value) || 20;
+      const title = document.getElementById("resTitle").value.trim();
+      const url = document.getElementById("resUrl").value.trim();
+      const description = document.getElementById("resDesc").value.trim();
+
+      if (!title || !url) {
+        showToast("請填寫「標題」與「網址連結」");
+        return;
+      }
+
+      if (editId) {
+        const idx = resources.findIndex(r => r.id === editId);
+        if (idx !== -1) {
+          resources[idx] = { ...resources[idx], subject, type, duration, title, url, description };
+        }
+      } else {
+        resources.push({
+          id: "res_" + Date.now(),
+          subject,
+          type,
+          duration,
+          title,
+          url,
+          description,
+          completed: false,
+          notes: "",
+          focusSeconds: 0
+        });
+      }
+
+      resetForm();
+      saveAndSync();
+    }
+
+    function editResource(id) {
+      const item = resources.find(r => r.id === id);
+      if (!item) return;
+      document.getElementById("formTitle").textContent = "✏️ 編輯學習資源";
+      document.getElementById("editId").value = item.id;
+      document.getElementById("resSubject").value = item.subject;
+      document.getElementById("resType").value = item.type;
+      document.getElementById("resDuration").value = item.duration;
+      document.getElementById("resTitle").value = item.title;
+      document.getElementById("resUrl").value = item.url;
+      document.getElementById("resDesc").value = item.description || "";
+      document.getElementById("cancelEditBtn").style.display = "inline-flex";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function resetForm() {
+      document.getElementById("formTitle").textContent = "➕ 新增學習資源";
+      document.getElementById("editId").value = "";
+      document.getElementById("resTitle").value = "";
+      document.getElementById("resUrl").value = "";
+      document.getElementById("resDesc").value = "";
+      document.getElementById("resDuration").value = "20";
+      document.getElementById("cancelEditBtn").style.display = "none";
+    }
+
+    function deleteResource(id) {
+      if (!confirm("確定要刪除這筆學習資源嗎？")) return;
+      resources = resources.filter(r => r.id !== id);
+      saveAndSync();
+    }
+
+    function moveResource(index, direction) {
+      const target = index + direction;
+      if (target < 0 || target >= resources.length) return;
+      const temp = resources[index];
+      resources[index] = resources[target];
+      resources[target] = temp;
+      saveAndSync();
+    }
+
+    function renderAdminTable() {
+      const tbody = document.getElementById("adminResourceTable");
+      const typeMap = { video: "影片", article: "網頁", quiz: "測驗" };
+      tbody.innerHTML = resources.map((r, i) => `
+        <tr>
+          <td>
+            <button class="btn btn-outline btn-sm" onclick="moveResource(${i}, -1)" ${i === 0 ? "disabled" : ""}>↑</button>
+            <button class="btn btn-outline btn-sm" onclick="moveResource(${i}, 1)" ${i === resources.length - 1 ? "disabled" : ""}>↓</button>
+          </td>
+          <td><span class="tag-subject">${escapeHtml(r.subject)}</span></td>
+          <td><strong>${escapeHtml(r.title)}</strong></td>
+          <td>${typeMap[r.type] || "資源"}</td>
+          <td>${r.completed ? "✅ 已完成" : "⏳ 未完成"}</td>
+          <td style="white-space:nowrap;">
+            <button class="btn btn-outline btn-sm" onclick="editResource('${r.id}')">編輯</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteResource('${r.id}')">刪除</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function renderDailyHistoryTable() {
+      const activeDays = dailyHistory.filter(h => h.completedCount > 0 || h.focusSeconds > 0);
+      const totalDays = activeDays.length;
+      const totalSeconds = dailyHistory.reduce((sum, h) => sum + (Number(h.focusSeconds) || 0), 0);
+      const avgSeconds = totalDays === 0 ? 0 : Math.round(totalSeconds / totalDays);
+      const todayCompleted = resources.filter(r => r.completed).length;
+
+      document.getElementById("kpiTotalDays").textContent = `${totalDays} 天`;
+      document.getElementById("kpiTotalMinutes").textContent = formatDurationDisplay(totalSeconds);
+      document.getElementById("kpiAvgMinutes").textContent = formatDurationDisplay(avgSeconds);
+      document.getElementById("kpiTodayCompleted").textContent = `${todayCompleted} / ${resources.length} 項`;
+
+      const tbody = document.getElementById("dailyHistoryTable");
+      if (dailyHistory.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:24px;">尚無每日統計紀錄</td></tr>`;
+        return;
+      }
+
+      const todayStr = getTodayDateStr();
+      tbody.innerHTML = dailyHistory.map(h => {
+        const pct = h.totalCount > 0 ? Math.round((h.completedCount / h.totalCount) * 100) : 0;
+        const isToday = h.date === todayStr;
+        return `
+          <tr style="${isToday ? 'background:#F6FAF7;' : ''}">
+            <td><strong>${escapeHtml(h.date)}</strong> ${isToday ? '<span class="tag-subject" style="margin-left:6px;">今天</span>' : ''}</td>
+            <td><strong>${h.completedCount}</strong> / ${h.totalCount} 項</td>
+            <td>${pct}%</td>
+            <td><strong>${formatDurationDisplay(h.focusSeconds)}</strong></td>
+            <td style="max-width:340px; color:var(--text-muted); font-size:0.85rem;">${escapeHtml(h.completedTitles || "（尚未完成任何項目）")}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderReportTable() {
+      const tbody = document.getElementById("reportTable");
+      tbody.innerHTML = resources.map(r => `
+        <tr>
+          <td><span class="tag-subject">${escapeHtml(r.subject)}</span></td>
+          <td>${escapeHtml(r.title)}</td>
+          <td>${r.completed ? "✅ 已完成" : "⬜ 進行中"}</td>
+          <td><strong>${formatDurationDisplay(r.focusSeconds)}</strong></td>
+          <td style="max-width:320px; white-space:pre-wrap; color:var(--text-muted);">${escapeHtml(r.notes || "（尚無筆記）")}</td>
+        </tr>
+      `).join("");
+    }
+
+    function startNewDayReset() {
+      if (!confirm("確定要重設目前的完成勾選與今日單項計時嗎？（過去的每日統計紀錄與筆記都會完整保留）")) return;
+      resources.forEach(r => {
+        r.completed = false;
+        r.focusSeconds = 0;
+      });
+      saveAndSync();
+      showToast("已重設今日進度，準備好迎接新的學習！🌅");
+    }
+
+    async function saveAndTestGasUrl() {
+      const url = document.getElementById("gasUrlInput").value.trim();
+      if (!url.startsWith("https://script.google.com/")) {
+        showToast("請輸入正確的 Google Apps Script 網址");
+        return;
+      }
+      localStorage.setItem(GAS_URL_KEY, url);
+      await pullFromCloud(false);
+    }
+
+    async function pushLocalToCloud() {
+      const url = document.getElementById("gasUrlInput").value.trim();
+      if (!url) {
+        showToast("請先輸入試算表網址");
+        return;
+      }
+      localStorage.setItem(GAS_URL_KEY, url);
+      await saveAndSync(false);
+    }
+
+    function clearGasUrl() {
+      localStorage.removeItem(GAS_URL_KEY);
+      document.getElementById("gasUrlInput").value = "";
+      setSyncBadge("", "本機模式");
+      showToast("已解除雲端綁定");
+    }
+
+    function updateAdminPin() {
+      const newPin = document.getElementById("newPinInput").value.trim();
+      if (newPin.length < 4) {
+        showToast("密碼長度請至少 4 個字元");
+        return;
+      }
+      localStorage.setItem(PIN_KEY, newPin);
+      document.getElementById("newPinInput").value = "";
+      showToast("家長管理密碼已更新！");
+    }
+
+    function exportJsonBackup() {
+      const payload = { resources, dailyHistory };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `Annie學習樂園完整備份_${getTodayDateStr()}.json`;
+      a.click();
+    }
+
+    function importJsonBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (Array.isArray(parsed)) {
+            resources = parsed;
+          } else if (parsed && Array.isArray(parsed.resources)) {
+            resources = parsed.resources;
+            if (Array.isArray(parsed.dailyHistory)) dailyHistory = parsed.dailyHistory;
+          }
+          saveAndSync();
+          showToast("備份還原成功！");
+        } catch {
+          showToast("檔案格式錯誤");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+  </script>
+</body>
+</html>
