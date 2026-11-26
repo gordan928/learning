@@ -1145,12 +1145,14 @@
       const localHist = localStorage.getItem(HISTORY_KEY);
       dailyHistory = localHist ? JSON.parse(localHist) : [];
 
-      checkAutoNewDay(todayStr);
-      updateTodayHistorySnapshot();
-      renderAll();
-
       if (savedGasUrl) {
+        // 有雲端設定時，先拉取雲端資料，再由 pullFromCloud 內判斷是否跨日
         await pullFromCloud(true);
+      } else {
+        // 純本機模式直接執行本機跨日檢查
+        checkAutoNewDay(todayStr);
+        updateTodayHistorySnapshot();
+        renderAll();
       }
     });
 
@@ -1261,15 +1263,31 @@
         if (result.status === "success") {
           if (Array.isArray(result.data) && result.data.length > 0) {
             resources = result.data;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(resources));
           }
           if (Array.isArray(result.history) && result.history.length > 0) {
             dailyHistory = result.history;
             dailyHistory.sort((a, b) => b.date.localeCompare(a.date));
-            localStorage.setItem(HISTORY_KEY, JSON.stringify(dailyHistory));
           }
-          updateTodayHistorySnapshot();
-          renderAll();
+
+          const todayStr = getTodayDateStr();
+          const hasTodayRecord = dailyHistory.some(h => h.date === todayStr);
+
+          // 若雲端歷史紀錄中還沒有「今天」，代表跨日了 -> 歸零並同步回雲端
+          if (!hasTodayRecord && dailyHistory.length > 0) {
+            resources.forEach(r => {
+              r.completed = false;
+              r.focusSeconds = 0;
+            });
+            localStorage.setItem(LAST_DATE_KEY, todayStr);
+            await saveAndSync(true);
+          } else {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(resources));
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(dailyHistory));
+            localStorage.setItem(LAST_DATE_KEY, todayStr);
+            updateTodayHistorySnapshot();
+            renderAll();
+          }
+
           setSyncBadge("connected", "雲端已連線");
           if (!isInitial) showToast("已更新為雲端最新資料！");
         } else {
@@ -1278,7 +1296,13 @@
       } catch (err) {
         console.error(err);
         setSyncBadge("", "雲端連線異常");
-        if (!isInitial) showToast("無法連線至 Google 試算表");
+        if (isInitial) {
+          checkAutoNewDay(getTodayDateStr());
+          updateTodayHistorySnapshot();
+          renderAll();
+        } else {
+          showToast("無法連線至 Google 試算表");
+        }
       }
     }
 
